@@ -174,7 +174,11 @@ Q5 <- function(nsamples){
         cont.equip.sem.manu.com.defeito.c1 = cont.equip.sem.manu.com.defeito.c1 + 1
       }
       
-      if (cont.defeitos[3] > 0 & sum(cont.defeitos[1:2]) == 0 & cont.defeitos[4] == 0){
+      # if (cont.defeitos[3] > 0 & sum(cont.defeitos[1:2]) == 0 & cont.defeitos[4] == 0){
+        # cont.equip.sem.manu.com.defeito.c3 = cont.equip.sem.manu.com.defeito.c3 + 1
+      # }
+      
+      if (cont.defeitos[3] > 0 & sum(cont.defeitos[c(1, 2, 4)]) == 0){
         cont.equip.sem.manu.com.defeito.c3 = cont.equip.sem.manu.com.defeito.c3 + 1
       }
 
