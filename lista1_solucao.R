@@ -16,7 +16,7 @@ MT <- function(nsamples){
 }
 
 CARA_COROA <- function(U, p){
-  cc = NULL
+  CC = NULL
   for (i in 1:length(U)){
     if (U[i] < (1.0 - p))
       CC = c(CC, 0)  # cara
@@ -27,19 +27,181 @@ CARA_COROA <- function(U, p){
   return (CC)
 }
 
-DADO <- function(U){
+DADO <- function(U, n.faces){
   dado = NULL
   for (i in 1:length(U)){
-    dado = c(dado, as.integer(U[i] * 6.0) + 1)
+    dado = c(dado, as.integer(U[i] * n.faces) + 1)
+  }
+}
+
+fatorial_rec <- function(n){
+  if (n == 1){
+    return (1)
+  } else {
+    return (n * fatorial_rec(n-1))
   }
 }
 
 
 ## Parte 1
+# Questão 1
+Q11 <- function(){
+  n.transp = 3
+  resp = fatorial_rec(n.transp)
+  print(resp)
+}
+
+# Q11()
+
+# Questão 2
+Q12 <- function(){
+
+  prim.alg = 3
+  ult.alg = 3
+  outros.alg = 4  # para cada algarismo
+  
+  resp = prim.alg * ult.alg * (outros.alg**2)
+  print(resp)
+}
+
+# Q12()
+
+# Questão 3
+Q13 <- function(){
+  # n.naturais = 10
+  # n.impares = 5
+  # n.pares = 5
+  
+  prim.alg = 9
+  sec.alg = 8
+  last.alg = 5
+  
+  resp = prim.alg * sec.alg * last.alg
+  print(resp)
+}
+
+# Q13()
+
+# Questão 4  (???)
+Q14 <- function(){
+  n.mocas = 5
+  n.rapazes = 5
+  
+  resp = fatorial_rec(n.mocas) * fatorial_rec(n.rapazes)
+  print(resp)
+}
+
+# Q14()
+
+# Questão 5
+
+# Questão 6
+
+# Questão 7
+
+# Questão 8
+
+# Questão 9
+
+# Questão 10
+
+# Questão 11
+
+# Questão 12
+
+# Questão 13
+
+# Questão 14
+
+# Questão 15
+
+# Questão 16
+
+# Questão 17
+
+# Questão 18
+
 
 ## Parte 2
+# Questão 1
+Q21 <- function(){
+  nsamples = 10000
+  
+  qtd.duas.caras = 0
+  
+  for (i in 1:nsamples){
+    moeda1 = sample(c('ca', 'co'), 1, replace=T, prob=c(0.5, 0.5))  # 0 = cara, 1 = coroa
+    moeda2 = sample(c('ca', 'co'), 1, replace=T, prob=c(0.5, 0.5))  # 0 = cara, 1 = coroa
+    
+    if (moeda1 == 'ca' & moeda2 == 'ca'){
+      qtd.duas.caras = qtd.duas.caras + 1
+    }
+  }
+  
+  print(paste("Em", nsamples, "lancamentos, tiveram duas caras", qtd.duas.caras, "vezes"))
+  
+}
+
+# Q21()
+
+# Questão 2
+Q22 <- function(){
+  
+  cont.dados = rep(0, 11)
+  
+  while (any(cont.dados == 0)){
+    face1 = sample(1:6, 1, replace=T)
+    face2 = sample(1:6, 1, replace=T)
+    
+    soma = face1 + face2
+    
+    print(paste("Face 1:", face1, "+ Face 2:", face2, "= Soma: ", soma))
+    
+    cont.dados[soma-1] = cont.dados[soma-1] + 1
+  }
+
+  print(sum(cont.dados))
+}
+
+# Q22()
+
+# Questão 3
+Q23 <- function(){
+  nsamples = 10000
+  
+  faces.moeda = c('ca', 'co') 
+  prob.moeda = c(2/5, 3/5)  # c(cara, coroa)
+  
+  evento.a = 0
+  evento.b = 0
+  
+  for (i in 1:nsamples){
+    face1 = sample(faces.moeda, 1, replace=T, prob=prob.moeda)
+    face2 = sample(faces.moeda, 1, replace=T, prob=prob.moeda)
+    
+    # Evento A
+    if ((face1 == 'ca' & face2 == 'co') | (face2 == 'ca' & face1 == 'co')){
+      evento.a = evento.a + 1
+    }
+    
+    # Evento B
+    if (face1 == 'co' & face2 == 'co'){
+      evento.b = evento.b + 1
+    }
+  }
+  
+  PA = evento.a / nsamples
+  PB = evento.b / nsamples
+  
+  print(paste("Item a) Probabilidade de A:", PA, "| Probabilidade de B:", PB))
+}
+
+# Q23()
+
 # Questão 4
-Q4 <- function(nsamples){
+Q24 <- function(){
+  nsamples = 100000
+  
   evento.a = numeric(nsamples)  # inicializados com 0
   evento.b = numeric(nsamples)  # inicializados com 0
   evento.c = numeric(nsamples)  # inicializados com 0
@@ -91,12 +253,14 @@ Q4 <- function(nsamples){
   print(paste("prob A: ", PA, "; prob B:", PB, "; prob C:", PC))
 }
 
-Q4(100000)
+# Q24()
 
 # Questão 5
-Q5 <- function(nsamples){
+Q25 <- function(){
   
   # Inicializacao das variaveis
+  nsamples = 1000000
+  
   tipos.defeito = c('C1', 'C2', 'C3', 'C4')
   prob.defeitos.sem.manu = c(0.04, 0.04, 0.06, 0.06)
   prob.defeitos.com.manu = c(0.04, 0.04, 0.03, 0.03)
@@ -220,4 +384,38 @@ Q5 <- function(nsamples){
   
 }
 
-Q5(1000000)
+# Q25()
+
+# Questão 6
+Q26 <- function(){
+  nsamples = 100000
+  
+  cont.dentro.area.cultivada = 0
+  
+  for (i in 1:nsamples){
+    x = runif(1)
+    y = runif(1)
+    
+    distancia1 = sqrt((x-0)^2 + (y-0)^2)
+    distancia2 = sqrt((x-1)^2 + (y-1)^2)
+    
+    if (distancia1 <= 1 & distancia2 <= 1) cont.dentro.area.cultivada = cont.dentro.area.cultivada + 1
+  }
+  
+  prob.dentro.area.cultivada = cont.dentro.area.cultivada / nsamples  # probabilidade ou proporcao de pontos dentro da area
+  area.total = 1
+  
+  area.cultivada = prob.dentro.area.cultivada * area.total
+  
+  adubo.por.km = 100
+  meses = 12
+  qtd.adubo = area.cultivada * adubo.por.km * meses
+  
+  print(paste("Quantidade (Kg) = ", qtd.adubo))
+}
+
+# Q26()
+
+# Questão 7
+
+# Questão 8
