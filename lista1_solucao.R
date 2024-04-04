@@ -15,7 +15,7 @@ MT <- function(nsamples){
   return (runif(nsamples))  # retorna nsamples valores no intervalo [0.0, 1.0)
 }
 
-CARA_COROA <- function(U, p){
+CARA_COROA <- function(U, p){  # p  probabilidade de coroa
   CC = NULL
   for (i in 1:length(U)){
     if (U[i] < (1.0 - p))
@@ -32,6 +32,7 @@ DADO <- function(U, n.faces){
   for (i in 1:length(U)){
     dado = c(dado, as.integer(U[i] * n.faces) + 1)
   }
+  return (dado)
 }
 
 fatorial_rec <- function(n){
@@ -55,7 +56,7 @@ Q11 <- function(){
 
 # Questão 2
 Q12 <- function(){
-
+  
   prim.alg = 3
   ult.alg = 3
   outros.alg = 4  # para cada algarismo
@@ -159,7 +160,7 @@ Q22 <- function(){
     
     cont.dados[soma-1] = cont.dados[soma-1] + 1
   }
-
+  
   print(sum(cont.dados))
 }
 
@@ -212,7 +213,7 @@ Q24 <- function(){
     
     while ((v1[1] == v2[1]) & (v1[2] == v2[2]) & (v1[3] == v2[3]))
       v2 = cod = sample(c("A", "B", "C", "D", "E", "F"), 3, replace=T)  
-      # pega um novo v2 ate v2 != v1
+    # pega um novo v2 ate v2 != v1
     
     # item a
     if (!(v1[1] %in% v2) & !(v1[2] %in% v2) & !(v1[3] %in% v2)){
@@ -291,7 +292,7 @@ Q25 <- function(){
     
     # inicializa uma variavel para contar os defeitos de acordo com seu tipo
     cont.defeitos = rep(0, length(tipos.defeito))
-
+    
     if (efetua.manutencao == T){  # caso 1: tem manutencao
       cont.equip.com.manu[i] = 1 # coloca 1 na posicao i do vetor cont.equip.com.manu.v2
       
@@ -316,7 +317,7 @@ Q25 <- function(){
       if (cont.defeitos[3] > 0 & sum(cont.defeitos[1:2]) == 0 & cont.defeitos[4] == 0){
         cont.equip.com.manu.com.defeito.c3 = cont.equip.com.manu.com.defeito.c3 + 1
       }
-
+      
     } else {  # caso 2: nao tem manutencao
       cont.equip.sem.manu[i] = 1 # coloca 1 na posicao i do vetor cont.equip.com.manu.v2
       
@@ -339,13 +340,13 @@ Q25 <- function(){
       }
       
       # if (cont.defeitos[3] > 0 & sum(cont.defeitos[1:2]) == 0 & cont.defeitos[4] == 0){
-        # cont.equip.sem.manu.com.defeito.c3 = cont.equip.sem.manu.com.defeito.c3 + 1
+      # cont.equip.sem.manu.com.defeito.c3 = cont.equip.sem.manu.com.defeito.c3 + 1
       # }
       
       if (cont.defeitos[3] > 0 & sum(cont.defeitos[c(1, 2, 4)]) == 0){
         cont.equip.sem.manu.com.defeito.c3 = cont.equip.sem.manu.com.defeito.c3 + 1
       }
-
+      
     }
     
     # Letra A
@@ -377,7 +378,7 @@ Q25 <- function(){
   # i) C1  (OBS: cont.equip.com.manu.com.defeito.c1 / total.com.defeito.c1)
   Pbi = cont.equip.com.manu.com.defeito.c1 / total.com.defeito.c1
   print(paste("Probabilidade de um equipamento apresentar defeito C1 com manutencao: ", Pbi))
-
+  
   # ii) C3  (OBS: cont.equip.com.manu.com.defeito.c3 / total.com.defeito.c3)
   Pbii = cont.equip.com.manu.com.defeito.c3 / total.com.defeito.c3
   print(paste("Probabilidade de um equipamento apresentar defeito C3 com manutencao: ", Pbii))
@@ -417,5 +418,91 @@ Q26 <- function(){
 # Q26()
 
 # Questão 7
+Q27A <- function(){
+  x0 = 3
+  a = 39373
+  c = 0
+  M = 2147483647
+  nsamples = 10000
+
+  U = LCG(x0, a, c, M, nsamples)
+  dado = DADO(U, 10)
+  
+  cont.face5 = rep(0, length(dado))
+  
+  for (i in 1:length(dado)){
+    if (dado[i] == 5)
+      cont.face5[i] = 1
+  }
+  
+  print(paste("Qtd de faces 5:", sum(cont.face5)))
+}
+
+# Q27A()
+
+Q27B <- function(){
+  nsamples = 10000
+  
+  # LCG
+  x0 = 3
+  a = 39373
+  c = 0
+  M = 2147483647
+  U1 = LCG(x0, a, c, M, nsamples)
+  
+  # MT
+  U2 = MT(nsamples)
+  
+  # dado viciado -> MT
+  n.faces = 10
+  dado = DADO(U1, n.faces-1)
+  
+  # moeda viciada -> LCG
+  p.coroa = 0.45
+  moeda = CARA_COROA(U2, p.coroa)  # cara = 0, coroa = 1
+  
+  # contadores
+  count.cara.face6 = 0
+  count.coroa.face9 = 0
+  count.face8 = 0
+  
+  for (i in 1:nsamples){
+    if (dado[i] == 8){
+      count.face8 = count.face8 + 1
+    }
+    
+    if (moeda[i] == 0 && dado[i] == 6){
+      count.cara.face6 = count.cara.face6 + 1
+    }
+    
+    if (moeda[i] == 1 && dado[i] == 9){
+      count.coroa.face9 =  count.coroa.face9 + 1
+    }
+  }
+  
+  print(paste("Probabilidade de se obter cara e face 6:", count.cara.face6 / nsamples))
+  print(paste("Probabilidade de se obter coroa e face 9:", count.coroa.face9 / nsamples))
+  print(paste("Probabilidade de se obter face 8:", count.face8 / nsamples))
+}
+
+# Q27B()
 
 # Questão 8
+simulacaoEvento <- function(n, nsamples){  # n >= 4
+  
+  count.a = rep(0, 4)
+  Pa = NULL
+  
+  pessoas = NULL
+  for (i in 1:n){
+    pessoas = c(pessoas, c('L', 'T'))
+  }
+  
+  for (i in 1:nsamples){
+    v = sample(pessoas, 2*n, replace=F)
+  }
+
+  Pa = c(count.a[1] / nsamples, count.a[2] / nsamples, count.a[3] / nsamples, count.a[4] / nsamples)
+  
+  return (Pa)
+}
