@@ -467,17 +467,11 @@ Q27B <- function(){
   count.face8 = 0
   
   for (i in 1:nsamples){
-    if (dado[i] == 8){
-      count.face8 = count.face8 + 1
-    }
+    if (dado[i] == 8) count.face8 = count.face8 + 1
     
-    if (moeda[i] == 0 && dado[i] == 6){
-      count.cara.face6 = count.cara.face6 + 1
-    }
+    if (moeda[i] == 0 && dado[i] == 6) count.cara.face6 = count.cara.face6 + 1
     
-    if (moeda[i] == 1 && dado[i] == 9){
-      count.coroa.face9 =  count.coroa.face9 + 1
-    }
+    if (moeda[i] == 1 && dado[i] == 9) count.coroa.face9 =  count.coroa.face9 + 1
   }
   
   print(paste("Probabilidade de se obter cara e face 6:", count.cara.face6 / nsamples))
@@ -500,6 +494,8 @@ simulacaoEvento <- function(n, nsamples){  # n >= 4
   
   for (i in 1:nsamples){
     v = sample(pessoas, 2*n, replace=F)
+    
+    
   }
 
   Pa = c(count.a[1] / nsamples, count.a[2] / nsamples, count.a[3] / nsamples, count.a[4] / nsamples)
