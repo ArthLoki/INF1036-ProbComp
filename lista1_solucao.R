@@ -40,7 +40,32 @@ fatorial_rec <- function(n){
   } else {
     return (n * fatorial_rec(n-1))
   }
-}
+}  # P(n) = n!
+
+permutacao.com.repeticao <- function(n, K){
+  denominador = 1
+  for (i in 1:length(K)){
+    denominador = denominador * fatorial_rec(K[i])
+  }
+  
+  return (n / denominador)
+}  # Pr(n, K) = n / (K[1]! * K[2]! * ... * K[len[K]]!)
+
+combinacao <- function(n, p){
+  return (fatorial_rec(n) / (fatorial_rec(p) * fatorial_rec(n-p)))
+}  # C(n, p) = n! / (p! * (n-p)!)
+
+permutacao.circular <- function(n){
+  return (fatorial_rec(n-1))
+}  # PC(n) = n! / n = (n-1)!
+
+arranjo <- function(n, p){
+  return (fatorial_rec(n) / fatorial_rec(n-p))
+}  # A(n, p) = n! / (n-p)!
+
+arranjo.com.repeticao <- function(n, p){
+  return (n**p)
+}  # Ar(n, p) = n^p
 
 
 ## Parte 1
